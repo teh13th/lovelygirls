@@ -28,23 +28,11 @@
     </style>
   </head>
   <body>    
-    <div id="clockdiv" class="center-block timer">
-      <div>
-        <span class="days"></span>
-        <div class="smalltext">Days</div>
-      </div>
-      <div>
-        <span class="hours"></span>
-        <div class="smalltext">Hours</div>
-      </div>
-      <div>
-        <span class="minutes"></span>
-        <div class="smalltext">Minutes</div>
-      </div>
-      <div>
-        <span class="seconds"></span>
-        <div class="smalltext">Seconds</div>
-      </div>
+    <div id="timerBlock" class="center-block timer">
+        <span class="days"></span> day(-s)
+        <span class="hours"></span> hour(-s)
+        <span class="minutes"></span> minute(-s)
+        <span class="seconds"></span> second(-s)
     </div>
     
     <script type="text/javascript">
@@ -80,15 +68,19 @@
 
           if (t.total <= 0) {
             clearInterval(timeinterval);
+            doSomething();
           }
         }
 
         updateClock();
         var timeinterval = setInterval(updateClock, 1000);
       }
+      
+      function doSomething() {
+        alert('TEST');
+      }
 
-      var deadline = new Date(2017, 2, 7, 19);
-      initializeClock('clockdiv', deadline);
+      initializeClock('timerBlock', new Date(2017, 2, 7, 19));
     </script>
   </body>
 </html>
