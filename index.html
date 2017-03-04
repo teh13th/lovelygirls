@@ -49,7 +49,7 @@
     </style>
   </head>
   <body>
-    <span>D: {{ "now" | date: "%Y-%m-%d %H:%M" }}</span>
+    <span>D: {{ "now" | date_to_rfc822 }}</span>
     <div id="timerBlock" class="center-block" style="white-space: nowrap;">
         <span class="days">0</span> day(-s)
         <span class="hours">0</span> hour(-s)
