@@ -38,7 +38,7 @@
         <span class="seconds">0</span> second(-s)
     </div>
     
-    <div class="center-block">
+    <div id="someBlock" class="center-block" style="display: none;">
       fdsfsdfdsfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4f43v445v45435v4v543v5435435434
     </div>
     
@@ -100,6 +100,7 @@
       
       function doSomething() {
         document.getElementById(timerElementName).style.display = 'none';
+        document.getElementById(someBlock).style.display = 'block';
       }
 
       initializeClock(timerElementName, new Date(2017, 2, 5, 0, 24));
