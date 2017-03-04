@@ -33,10 +33,10 @@
   </head>
   <body>    
     <div id="timerBlock" class="center-block timer">
-        <span class="days"></span> day(-s)
-        <span class="hours"></span> hour(-s)
-        <span class="minutes"></span> minute(-s)
-        <span class="seconds"></span> second(-s)
+        <span class="days">0</span> day(-s)
+        <span class="hours">0</span> hour(-s)
+        <span class="minutes">0</span> minute(-s)
+        <span class="seconds">0</span> second(-s)
     </div>
     
     <script type="text/javascript">
@@ -65,26 +65,39 @@
         function updateClock() {
           var t = getTimeRemaining(endtime);
 
-          daysSpan.innerHTML = t.days;
-          hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-          minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-          secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-
           if (t.total <= 0) {
+            daysSpan.innerHTML = 0;
+            hoursSpan.innerHTML = 0;
+            minutesSpan.innerHTML = 0;
+            secondsSpan.innerHTML = 0;
+            
             clearInterval(timeinterval);
             doSomething();
+            
+            return false;
+          }
+          else {
+            daysSpan.innerHTML = t.days;
+            hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+            minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+            secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+            
+            return true;
           }
         }
 
-        updateClock();
-        var timeinterval = setInterval(updateClock, 1000);
+        var isElapsed = !updateClock();
+        
+        if (!isElapsed) {
+          var timeinterval = setInterval(updateClock, 1000);
+        }
       }
       
       function doSomething() {
         alert('TEST');
       }
 
-      initializeClock('timerBlock', new Date(2017, 2, 5, 0, 16));
+      initializeClock('timerBlock', new Date(2017, 2, 5, 0, 24));
     </script>
   </body>
 </html>
