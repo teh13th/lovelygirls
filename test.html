@@ -129,8 +129,10 @@
       }
 
       getCurrentTime(function(currentTime) {
+        var endDate = new Date(Date.parse(new Date()) + (15 * secondDuration));
+        
         function update() {
-          var result = updateClock(currentTime, new Date(Date.parse(new Date()) + (15 * secondDuration)), currentTimeOffset);
+          var result = updateClock(currentTime, endDate, currentTimeOffset);
           currentTimeOffset = currentTimeOffset + secondDuration;
           return result;
         };
