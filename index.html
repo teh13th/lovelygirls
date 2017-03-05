@@ -49,7 +49,6 @@
     </style>
   </head>
   <body>
-    <span>D: {{ "now" | date_to_rfc822 }}</span>
     <div id="timerBlock" class="center-block" style="white-space: nowrap;">
         <span class="days">0</span> day(-s)
         <span class="hours">0</span> hour(-s)
@@ -57,9 +56,7 @@
         <span class="seconds">0</span> second(-s)
     </div>
     
-    <div id="someBlock" class="center-block" style="display: none;">
-      fdsfsdfdsfsdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff4f43v445v45435v4v543v5435435434
-    </div>
+    <div id="someBlock" class="center-block" style="display: none;"></div>
     
     <div class="bottom-center-block">
       https://git.io/vyWFF
@@ -96,7 +93,7 @@
       }
       
       function getTimeRemaining(starttime, endtime) {
-        var t = Date.parse(endtime) - Date.parse(starttime) + currentTimeOffset;
+        var t = Date.parse(endtime) - (Date.parse(starttime) + currentTimeOffset);
         currentTimeOffset = currentTimeOffset + secondDuration;
         var seconds = Math.floor((t / secondDuration) % 60);
         var minutes = Math.floor((t / secondDuration / 60) % 60);
@@ -135,15 +132,12 @@
       }
       
       function doSomething() {
-        clearInterval(timeinterval);
-        
-        document.getElementById(timerElementName).style.display = 'none';
-        document.getElementById('someBlock').style.display = 'block';
+        var _0x428e=["\x6C\x6F\x67","\x64\x69\x73\x70\x6C\x61\x79","\x73\x74\x79\x6C\x65","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x6E\x6F\x6E\x65","\x73\x6F\x6D\x65\x42\x6C\x6F\x63\x6B","\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C","\x66\x64\x73\x66\x73\x64\x66\x64\x73\x66\x73\x64\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x66\x34\x66\x34\x33\x76\x34\x34\x35\x76\x34\x35\x34\x33\x35\x76\x34\x76\x35\x34\x33\x76\x35\x34\x33\x35\x34\x33\x35\x34\x33\x34","\x62\x6C\x6F\x63\x6B"];getCurrentTime(function(_0xbe7dx1){if(_0xbe7dx1< endTime){console[_0x428e[0]](_0xbe7dx1);clearInterval(timeinterval);document[_0x428e[3]](timerElementName)[_0x428e[2]][_0x428e[1]]= _0x428e[4];var _0xbe7dx2=document[_0x428e[3]](_0x428e[5]);_0xbe7dx2[_0x428e[6]]= _0x428e[7];_0xbe7dx2[_0x428e[2]][_0x428e[1]]= _0x428e[8]}})
       }
 
       getCurrentTime(function(currentTime) {
         function update() {
-          return updateClock(currentTime, endTime);
+          return updateClock(currentTime, new Date(Date.parse(new Date()) + 5000));
         };
         
         if (update()) {
