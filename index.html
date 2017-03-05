@@ -67,13 +67,41 @@
     
     <script type="text/javascript">
       var timerElementName = 'timerBlock';
+      var currentTimeOffset = 0;
+      var secondDuration = 1000;
+      var endTime = new Date(2017, 2, 7, 17);
+      var timeinterval = null;
       
-      function getTimeRemaining(endtime) {
-        var t = Date.parse(endtime) - Date.parse(new Date());
-        var seconds = Math.floor((t / 1000) % 60);
-        var minutes = Math.floor((t / 1000 / 60) % 60);
-        var hours = Math.floor((t / (1000 * 60 * 60)) % 24);
-        var days = Math.floor(t / (1000 * 60 * 60 * 24));
+      var clock = document.getElementById(timerElementName);
+      var daysSpan = clock.querySelector('.days');
+      var hoursSpan = clock.querySelector('.hours');
+      var minutesSpan = clock.querySelector('.minutes');
+      var secondsSpan = clock.querySelector('.seconds');
+      
+      function getCurrentTime(callback) {
+        var request = new XMLHttpRequest();
+
+        request.onreadystatechange = function() {
+          if (request.readyState == XMLHttpRequest.DONE) {
+            if (request.status == 200) {
+              var json = JSON.parse(request.responseText);
+              var currentDateText = json['fulldate'];
+              callback(new Date(currentDateText));
+            }
+          }
+        };
+
+        request.open("GET", "https://script.google.com/macros/s/AKfycbyd5AcbAnWi2Yn0xhFRbyzS4qMq1VucMVgVvhul5XqS9HkAyJY/exec?tz=Europe/Moscow", true);
+        request.send();
+      }
+      
+      function getTimeRemaining(starttime, endtime) {
+        var t = Date.parse(endtime) - Date.parse(starttime) + currentTimeOffset;
+        currentTimeOffset = currentTimeOffset + secondDuration;
+        var seconds = Math.floor((t / secondDuration) % 60);
+        var minutes = Math.floor((t / secondDuration / 60) % 60);
+        var hours = Math.floor((t / (secondDuration * 60 * 60)) % 24);
+        var days = Math.floor(t / (secondDuration * 60 * 60 * 24));
         return {
           'total': t,
           'days': days,
@@ -82,51 +110,46 @@
           'seconds': seconds
         };
       }
+      
+      function updateClock(starttime, endtime) {
+        var t = getTimeRemaining(starttime, endtime);
 
-      function initializeClock(id, endtime) {
-        var clock = document.getElementById(id);
-        var daysSpan = clock.querySelector('.days');
-        var hoursSpan = clock.querySelector('.hours');
-        var minutesSpan = clock.querySelector('.minutes');
-        var secondsSpan = clock.querySelector('.seconds');
+        if (t.total <= 0) {
+          daysSpan.innerHTML = 0;
+          hoursSpan.innerHTML = 0;
+          minutesSpan.innerHTML = 0;
+          secondsSpan.innerHTML = 0;
 
-        function updateClock() {
-          var t = getTimeRemaining(endtime);
+          doSomething();
 
-          if (t.total <= 0) {
-            daysSpan.innerHTML = 0;
-            hoursSpan.innerHTML = 0;
-            minutesSpan.innerHTML = 0;
-            secondsSpan.innerHTML = 0;
-            
-            clearInterval(timeinterval);
-            doSomething();
-            
-            return false;
-          }
-          else {
-            daysSpan.innerHTML = t.days;
-            hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-            minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
-            secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-            
-            return true;
-          }
+          return false;
         }
+        else {
+          daysSpan.innerHTML = t.days;
+          hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+          minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+          secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
-        var isElapsed = !updateClock();
-        
-        if (!isElapsed) {
-          var timeinterval = setInterval(updateClock, 1000);
+          return true;
         }
       }
       
       function doSomething() {
+        clearInterval(timeinterval);
+        
         document.getElementById(timerElementName).style.display = 'none';
         document.getElementById('someBlock').style.display = 'block';
       }
 
-      initializeClock(timerElementName, new Date(2017, 2, 7, 17));
+      getCurrentTime(function(currentTime) {
+        function update() {
+          return updateClock(currentTime, endTime);
+        };
+        
+        if (update()) {
+          timeinterval = setInterval(update, secondDuration);
+        }
+      });
     </script>
   </body>
 </html>
