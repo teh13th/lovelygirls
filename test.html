@@ -130,8 +130,8 @@
       }
 
       getCurrentTime(function(currentTime) {
-        endTime = currentTime;
-        endTime.setSeconds(currentTime.getSeconds() + 15);
+        endTime = new Date(currentTime);
+        endTime.setSeconds(endTime.getSeconds() + 15);
         
         function update() {
           var result = updateClock(currentTime, endTime, currentTimeOffset);
