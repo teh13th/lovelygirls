@@ -61,7 +61,7 @@
     <script type="text/javascript">
       var currentTimeOffset = 0;
       var secondDuration = 1000;
-      var endDate = new Date(Date.parse(new Date()) + (15 * secondDuration));
+      var endTime = new Date(Date.parse(new Date()) + (15 * secondDuration));
       var timeinterval = null;
       
       var clock = document.getElementById('timerBlock');
@@ -131,7 +131,7 @@
 
       getCurrentTime(function(currentTime) {     
         function update() {
-          var result = updateClock(currentTime, endDate, currentTimeOffset);
+          var result = updateClock(currentTime, endTime, currentTimeOffset);
           currentTimeOffset = currentTimeOffset + secondDuration;
           return result;
         };
