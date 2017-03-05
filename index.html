@@ -1,5 +1,3 @@
----
----
 <!DOCTYPE html>
 <html>
   <head>
@@ -90,9 +88,8 @@
         request.send();
       }
       
-      function getTimeRemaining(starttime, endtime) {
-        var t = Date.parse(endtime) - (Date.parse(starttime) + currentTimeOffset);
-        currentTimeOffset = currentTimeOffset + secondDuration;
+      function getTimeRemaining(starttime, endtime, offset) {
+        var t = Date.parse(endtime) - (Date.parse(starttime) + offset);
         var seconds = Math.floor((t / secondDuration) % 60);
         var minutes = Math.floor((t / secondDuration / 60) % 60);
         var hours = Math.floor((t / (secondDuration * 60 * 60)) % 24);
@@ -106,8 +103,8 @@
         };
       }
       
-      function updateClock(starttime, endtime) {
-        var t = getTimeRemaining(starttime, endtime);
+      function updateClock(starttime, endtime, offset) {
+        var t = getTimeRemaining(starttime, endtime, offset);
 
         if (t.total <= 0) {
           daysSpan.innerHTML = 0;
@@ -135,7 +132,9 @@
 
       getCurrentTime(function(currentTime) {
         function update() {
-          return updateClock(currentTime, endTime);
+          var result = updateClock(currentTime, endTime, currentTimeOffset);
+          currentTimeOffset = currentTimeOffset + secondDuration;
+          return result;
         };
         
         if (update()) {
