@@ -55,16 +55,21 @@
     </div>
     
     <div id="log"></div>
+    <div>asdasdda</div>
     
     <div class="bottom-center-block">
       https://git.io/vyWFF
     </div>
     
     <script type="text/javascript">
+      alert('fck');
       var logBlock = document.getElementById('log');
       function log(msg) {
         logBlock.innerHTML = logBlock.innerHTML + '<br/>' + msg;
+        alert(msg);
       }
+      
+      log('TESSSSSS!');
       
       window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
         log('ERROR!! ' + errorMsg + ' line number: ' + lineNumber);
