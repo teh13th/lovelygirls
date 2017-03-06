@@ -54,45 +54,78 @@
         <span class="seconds">0</span> second(-s)
     </div>
     
+    <div id="log"></div>
+    
     <div class="bottom-center-block">
       https://git.io/vyWFF
     </div>
     
     <script type="text/javascript">
+      var logBlock = document.getElementById('log');
+      function log(msg) {
+        logBlock.innerHtml = logBlock.innerHtml + '\r\n' + msg;
+      }
+      
       var currentTimeOffset = 0;
       var secondDuration = 1000;
       var endTime = null;
       var timeinterval = null;
       
       var clock = document.getElementById('timerBlock');
+      log('clock val: ' + clock);
       var daysSpan = clock.querySelector('.days');
+      log('daysSpan val: ' + daysSpan);
       var hoursSpan = clock.querySelector('.hours');
+      log('hoursSpan val: ' + hoursSpan);
       var minutesSpan = clock.querySelector('.minutes');
+      log('minutesSpan val: ' + minutesSpan);
       var secondsSpan = clock.querySelector('.seconds');
+      log('secondsSpan val: ' + secondsSpan);
       
       function getCurrentTime(callback) {
+        log('getCurrentTime::start');
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function() {
+          log('getCurrentTime::request.onreadystatechange::readyState: ' + request.readyState);
           if (request.readyState == XMLHttpRequest.DONE) {
+            log('getCurrentTime::request.onreadystatechange::status: ' + request.status);
             if (request.status == 200) {
               var json = JSON.parse(request.responseText);
+              log('getCurrentTime::request.onreadystatechange::json: ' + json);
               var currentDateText = json['fulldate'];
-              callback(new Date(currentDateText));
+              log('getCurrentTime::request.onreadystatechange::currentDateText: ' + currentDateText);
+              var dateParsed = new Date(currentDateText);
+              log('getCurrentTime::request.onreadystatechange::dateParsed: ' + dateParsed);
+              callback(dateParsed);
+              log('getCurrentTime::callback');
             }
           }
         };
-
+        
+        log('getCurrentTime::request::send');
         request.open("GET", "https://script.google.com/macros/s/AKfycbyd5AcbAnWi2Yn0xhFRbyzS4qMq1VucMVgVvhul5XqS9HkAyJY/exec?tz=Europe/Moscow", true);
         request.send();
+        log('getCurrentTime::end');
       }
       
       function getTimeRemaining(starttime, endtime, offset) {
+        log('getTimeRemaining::start');
+        log('getTimeRemaining::starttime: ' + starttime);
+        log('getTimeRemaining::endtime: ' + endtime);
+        log('getTimeRemaining::offset: ' + offset);
+        
         var t = Date.parse(endtime) - (Date.parse(starttime) + offset);
+        log('getTimeRemaining::t: ' + t);
         var seconds = Math.floor((t / secondDuration) % 60);
+        log('getTimeRemaining::seconds: ' + seconds);
         var minutes = Math.floor((t / secondDuration / 60) % 60);
+        log('getTimeRemaining::minutes: ' + minutes);
         var hours = Math.floor((t / (secondDuration * 60 * 60)) % 24);
+        log('getTimeRemaining::hours: ' + hours);
         var days = Math.floor(t / (secondDuration * 60 * 60 * 24));
+        log('getTimeRemaining::days: ' + days);
+        log('getTimeRemaining::end');
         return {
           'total': t,
           'days': days,
@@ -103,45 +136,66 @@
       }
       
       function updateClock(starttime, endtime, offset) {
+        log('updateClock::start');
+        log('updateClock: call getTimeRemaining.');
         var t = getTimeRemaining(starttime, endtime, offset);
 
         if (t.total <= 0) {
+          log('updateClock: elapsed!');
+          
           daysSpan.innerHTML = 0;
           hoursSpan.innerHTML = 0;
           minutesSpan.innerHTML = 0;
           secondsSpan.innerHTML = 0;
 
+          log('updateClock: call doSomething.');
           doSomething();
 
+          log('updateClock::end');
           return false;
         }
         else {
+          log('updateClock: in progress..');
+          
           daysSpan.innerHTML = t.days;
           hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
           minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
           secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
 
+          log('updateClock::end');
           return true;
         }
       }
       
       function doSomething() {
+        log('doSomething::start');
         var _0x1088=["\x65\x6E\x64\x54\x69\x6D\x65","\x67\x65\x74\x53\x65\x63\x6F\x6E\x64\x73","\x73\x65\x74\x53\x65\x63\x6F\x6E\x64\x73","\x74\x69\x6D\x65\x69\x6E\x74\x65\x72\x76\x61\x6C","\x74\x69\x6D\x65\x72\x42\x6C\x6F\x63\x6B","\x67\x65\x74\x45\x6C\x65\x6D\x65\x6E\x74\x42\x79\x49\x64","\x77\x68\x69\x74\x65\x53\x70\x61\x63\x65","\x73\x74\x79\x6C\x65","\x6E\x6F\x72\x6D\x61\x6C","\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C","\x30\x4A\x33\x51\x73\x4E\x47\x49\x30\x4C\x67\x67\x30\x59\x48\x51\x75\x39\x43\x77\x30\x4C\x54\x51\x75\x74\x43\x34\x30\x4C\x55\x67\x30\x4C\x54\x51\x74\x64\x43\x79\x30\x59\x50\x52\x69\x4E\x43\x36\x30\x4C\x67\x68\x49\x4E\x43\x57\x30\x4C\x54\x51\x74\x64\x43\x38\x49\x4E\x43\x79\x30\x4C\x44\x52\x67\x53\x44\x51\x73\x69\x44\x51\x76\x39\x43\x31\x30\x59\x44\x51\x74\x64\x43\x7A\x30\x4C\x37\x51\x73\x74\x43\x2B\x30\x59\x44\x51\x75\x74\x43\x31\x49\x44\x41\x77\x4D\x54\x41\x74\x4D\x44\x41\x78\x4D\x53\x30\x78\x4D\x44\x45\x78\x4D\x44\x41\x78\x4D\x51\x3D\x3D","\x67\x65\x74\x43\x75\x72\x72\x65\x6E\x74\x54\x69\x6D\x65"];window[_0x1088[11]](function(){var _0xff12x1= new Date(window[_0x1088[0]]);_0xff12x1[_0x1088[2]](_0xff12x1[_0x1088[1]]()- 5);if(arguments[0]> _0xff12x1){clearInterval(window[_0x1088[3]]);var _0xff12x2=document[_0x1088[5]](_0x1088[4]);_0xff12x2[_0x1088[7]][_0x1088[6]]= _0x1088[8];_0xff12x2[_0x1088[9]]= _0x1088[10]}});
+        log('doSomething::end');
       }
 
       getCurrentTime(function(currentTime) {
+        log('getCurrentTime::callback::start');
+        log('getCurrentTime::callback::currentTime: ' + currentTime);
         endTime = new Date(currentTime);
+        log('getCurrentTime::callback::endTime init: ' + endTime);
         endTime.setSeconds(endTime.getSeconds() + 10);
+        log('getCurrentTime::callback::endTime set seconds: ' + endTime);
         
         function update() {
+          log('update::start');
           var result = updateClock(currentTime, endTime, currentTimeOffset);
+          log('updateClock::result: ' + result);
           currentTimeOffset = currentTimeOffset + secondDuration;
+          log('offset changed to: ' + currentTimeOffset);
+          log('update::end');
           return result;
         };
         
         if (update()) {
+          log('set timer!');
           timeinterval = setInterval(update, secondDuration);
         }
+        log('getCurrentTime::callback::end');
       });
     </script>
   </body>
