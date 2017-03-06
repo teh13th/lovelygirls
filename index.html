@@ -79,6 +79,8 @@
               var json = JSON.parse(request.responseText);
               var currentDateText = json['fulldate'];
               callback(new Date(currentDateText));
+            } else if (request.status == 0) {
+              callback(new Date());
             }
           }
         };
