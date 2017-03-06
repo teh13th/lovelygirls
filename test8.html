@@ -63,7 +63,7 @@
     <script type="text/javascript">
       var logBlock = document.getElementById('log');
       function log(msg) {
-        logBlock.innerHtml = logBlock.innerHtml + '\r\n' + msg;
+        logBlock.innerHTML = logBlock.innerHTML + '\r\n' + msg;
       }
       
       window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
