@@ -66,6 +66,11 @@
         logBlock.innerHtml = logBlock.innerHtml + '\r\n' + msg;
       }
       
+      window.onerror = function myErrorHandler(errorMsg, url, lineNumber) {
+        log('ERROR!! ' + errorMsg + ' line number: ' + lineNumber);
+        return false;
+      }
+      
       var currentTimeOffset = 0;
       var secondDuration = 1000;
       var endTime = null;
