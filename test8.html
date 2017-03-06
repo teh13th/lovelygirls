@@ -97,6 +97,7 @@
           log('getCurrentTime::request.onreadystatechange::readyState: ' + request.readyState);
           if (request.readyState == XMLHttpRequest.DONE) {
             log('getCurrentTime::request.onreadystatechange::status: ' + request.status);
+            request.responseText
             if (request.status == 200) {
               var json = JSON.parse(request.responseText);
               log('getCurrentTime::request.onreadystatechange::json: ' + json);
@@ -106,6 +107,9 @@
               log('getCurrentTime::request.onreadystatechange::dateParsed: ' + dateParsed);
               callback(dateParsed);
               log('getCurrentTime::callback');
+            } else if (request.status == 0) {
+              log('SAFARI!');
+              callback(new Date());
             }
           }
         };
